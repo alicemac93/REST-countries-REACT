@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import SearchBar from "./components/SearchBar";
+import CountriesList from "./components/CountriesList";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await fetch("https://restcountries.eu/rest/v2/all");
+        if (response.ok) {
+          const jsonResponse = await response.json();
+          setCountries(jsonResponse);
+          console.log(countries);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header"></header>
+      <SearchBar />
+      <CountriesList />
     </div>
   );
 }
