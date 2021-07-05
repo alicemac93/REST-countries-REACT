@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
 import CountriesList from "./components/CountriesList";
-import React, { useEffect, useState } from "react";
+import ThemeToggler from "./components/ThemeToggler";
+import { ThemeProvider } from "./components/ThemeContext"
 
 function App() {
-  
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
@@ -13,7 +14,6 @@ function App() {
         if (response.ok) {
           const jsonResponse = await response.json();
           setCountries(jsonResponse);
-          console.log(countries);
         }
       } catch (error) {
         console.log(error);
@@ -23,11 +23,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header"></header>
-      <SearchBar />
-      <CountriesList />
-    </div>
+    <>
+      <ThemeProvider>
+        <header className="App-header">
+          <ThemeToggler />
+        </header>
+        <SearchBar />
+        <CountriesList 
+          countries={countries} />
+      </ThemeProvider>
+    </>
   );
 }
 
